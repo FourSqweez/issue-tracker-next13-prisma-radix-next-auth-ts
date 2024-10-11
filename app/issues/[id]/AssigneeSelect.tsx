@@ -6,9 +6,11 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@/app/components";
 import toast, { Toaster } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const AssigneeSelect = ({ issue }: { issue: Issue }) => {
   const { data: users, error, isLoading } = useUsers();
+  const router = useRouter();
 
   if (isLoading) return <Skeleton />;
   if (error) return null;
@@ -20,6 +22,7 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
       })
       .then(() => {
         toast.success("Changes saved.");
+        router.refresh();
       })
       .catch(() => {
         toast.error("Changes could not be saved.");
